@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Set Savings Goal</title>
+</head>
+
+<body>
+	<section>
+		<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+		<script>
+			const editor = tinymce.init({
+				selector: '#goal'
+			});
+		</script>
+		<div class="container-fluid">
+			<div class="row py-3">
+				<div class="col-md-8 offset-md-2">
+					<div class="card p-4">
+						<div class="alert text-center mb-2" th:if="${alMessage}" th:text="${alMessage.content}"
+							th:classappend="${alMessage.type}">
+						</div>
+						<h4 class="text-center"> Set Savings Goal <i class="fa-solid fa-piggy-bank"></i></h4>
+
+						<div class="alert text-center" th:if="${message}" th:text="${message.content}"
+							th:classappend="${message.type}">
+						</div>
+
+						<form th:action="@{do-set-savings-goal}" method="post" th:if="${savingsGoal}"
+							th:object="${savingsGoal}" onsubmit="return validate()">
+							<div class="mb-3 form-check text-center" th:unless="${#strings.isEmpty(savingsGoal.goal)}">
+								<input type="checkbox" class="form-check-input" id="edit" onclick="enableEditing(this)"
+									checked>
+								<label class="form-check-label" for="edit">Edit</label>
+							</div>
+							<input type="hidden" th:unless="${#strings.isEmpty(savingsGoal.goal)}"
+								th:value="${savingsGoal.sId}" name="sId">
+							<div class="form-group">
+								<label for="amount">Amount</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" th:text="${currencySymbol}"></span>
+									</div>
+									<input type="number" name="amount" id="amount" class="form-control"
+										aria-label="Amount (to the nearest rupee)" placeholder="Enter Amount"
+										onKeyPress="if(this.value.length==10) return false;" required
+										th:value="${savingsGoal.amount==0.0}?'':${savingsGoal.amount}"
+										th:classappend="${#fields.hasErrors('amount')?'is-invalid':''}">
+									<div th:each="e: ${#fields.errors('amount')}" th:text="${e}"
+										class="invalid-feedback">
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group" id="editable-goal">
+								<label for="goal">Your Savings Goal</label>
+								<textarea rows="5" name="goal" id="goal" class="form-control"
+									th:classappend="${#fields.hasErrors('goal')?'is-invalid':''}"
+									placeholder="Describe your goal in words"
+									th:value="${savingsGoal.goal}"><span th:text="${savingsGoal.goal}"></span></textarea>
+								<div th:each="e: ${#fields.errors('goal')}" th:text="${e}" class="invalid-feedback">
+								</div>
+							</div>
+							<div class="form-group" id="non-editable-goal" style="display: none;">
+								<label for="goal">Your Savings Goal</label>
+								<div class="notes-card form-control" th:utext="${savingsGoal.goal}">
+
+								</div>
+
+							</div>
+
+							<div class="form-group">
+								<label for="date">Date</label>
+								<input type="text" id="date" name="date" class="form-control"
+									title="Once you click on 'Update' button, the date will be updated to today's date"
+									th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+									th:classappend="${#fields.hasErrors('date')?'is-invalid':''}"
+									th:value="${#strings.isEmpty(savingsGoal.date)?#dates.format(#dates.createNow(), 'yyyy-MM-dd'): savingsGoal.date}"
+									readonly>
+								<div th:each="e: ${#fields.errors('date')}" th:text="${e}" class="invalid-feedback">
+								</div>
+							</div>
+
+
+							<div class="form-group text-center" th:if="${#strings.isEmpty(savingsGoal.goal)}">
+								<button type="submit" id="setBtn" class="btn btn-md btn-custom">Set</button>
+							</div>
+							<div class="form-group text-center" th:unless="${#strings.isEmpty(savingsGoal.goal)}">
+								<button type="submit" id="setBtn" class="btn btn-md btn-custom">Update</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

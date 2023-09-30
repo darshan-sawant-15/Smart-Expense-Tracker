@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Expense Details</title>
+</head>
+
+<body>
+	<section>
+
+		<div class="container-fluid">
+			<div class="row py-3">
+				<div class="col-md-8 offset-md-2">
+					<div class="card p-4">
+						<h4 class="text-center">Expense Details <i class="fa-solid fa-bag-shopping"></i></h4>
+						<div class="alert text-center mt-2" th:if="${expense} and ${updateMessage}"
+							th:text="${updateMessage.content}" th:classappend="${updateMessage.type}">
+						</div>
+						<div class="mt-2 table-container" th:if="${expense}">
+							<div class="form-group">
+								<label for="name" class="font-weight-bold">Description</label>
+								<input type="text" id="description" name="description" class="form-control"
+									th:value="${expense.description}" readonly>
+							</div>
+
+							<div class="form-group">
+								<label for="type" class="font-weight-bold">Type</label>
+
+								<input type="text" name="type" class="form-control" th:value="${expense.type}" readonly>
+							</div>
+							<div class="form-group">
+								<label for="amount" class="font-weight-bold">Amount</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" th:text="${currencySymbol}"></span>
+									</div>
+									<input type="number" name="amount" id="amount " class="form-control"
+										aria-label="Amount (to the nearest rupee)" th:value="${expense.amount}"
+										readonly>
+
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="date" class="font-weight-bold">Date</label>
+								<input type="text" id="date" name="date" class="form-control" th:value="${expense.date}"
+									readonly>
+							</div>
+
+							<div th:if="${expense.note}">
+								<div class="form-group" th:if="${#strings.length(expense.note)>0}">
+									<label for="note" class="font-weight-bold">Note</label>
+									<div class="notes-card form-control" th:utext="${expense.note}">
+
+									</div>
+
+								</div>
+							</div>
+
+
+							<div class="form-group text-center mt-2">
+								<a class="btn btn-md btn-primary mr-2 text-white"
+									th:href="@{'/user/expense/update-expense/'+${expense.expId}}"><i
+										class="fa-solid fa-pen-to-square"></i> Update</a>
+								<a th:onclick="|deleteItem('/user/expense/delete-expense/',${expense.expId}, ${currentPage})|"
+									class="btn btn-md btn-danger text-white"><i class="fa-solid fa-trash"></i>
+									Delete</a>
+							</div>
+						</div>
+						<div class="alert text-center mt-2" th:unless=${expense} th:if="${message}"
+							th:text="${message.content}" th:classappend="${message.type}">
+						</div>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+</body>
+
+</html>

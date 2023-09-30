@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Add Income Source</title>
+</head>
+
+<body>
+	<section>
+		<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+		<script>
+			tinymce.init({
+				selector: '#note'
+			});
+		</script>
+		<div class="container-fluid">
+			<div class="row py-3">
+				<div class="col-md-8 offset-md-2">
+					<div class="card p-4">
+						<h4 class="text-center"> Add Income Source <i class="fa-solid fa-money-check-dollar"></i>
+						</h4>
+
+						<div class="alert text-center mt-2" th:if="${message}" th:text="${message.content}"
+							th:classappend="${message.type}">
+						</div>
+
+						<div class="alert text-center mt-2" th:if="${fullMessage}" th:unless="${message}"
+							th:text="${fullMessage.content}" th:classappend="${fullMessage.type}">
+						</div>
+						<form th:action="@{do-add-income-source}" method="post" th:unless="${fullMessage}"
+							th:object="${incomeSource}" onsubmit="return validate()" novalidate>
+
+
+							<div class="form-group">
+								<label for="name">Description</label>
+								<input type="text" id="description" name="description" class="form-control"
+									placeholder="Enter Income Source Description" required
+									th:value="${incomeSource.description}" minlength="2" maxlength="100"
+									th:classappend="${#fields.hasErrors('description')?'is-invalid':''}">
+								<div th:each="e: ${#fields.errors('description')}" th:text="${e}"
+									class="invalid-feedback">
+
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="type">Type</label>
+								<select class="custom-select" name="type" id="type"
+									th:classappend="${#fields.hasErrors('type')?'is-invalid':''}" required>
+									<option selected hidden disabled>Choose Income Type</option>
+									<option th:if="${incomeSource.type}" th:value="${incomeSource.type}"
+										th:text="${incomeSource.type}" selected hidden>
+									</option>
+									<option
+										title="If you have a job and receive a paycheck, you make your money through active or earned income. This means you're exchanging time, energy or material participation, in exchange for money. Active income includes payments such as wages, salaries, tips and commissions."
+										value="Active">Active</option>
+									<option
+										title="Passive income is money earned from a rental property, limited partnership or other business in which you're not actively involved."
+										value="Passive">Passive</option>
+									<option
+										title="Portfolio income comes from investments such as dividends, interest, royalties and capital gains."
+										value="Portfolio">Portfolio</option>
+								</select>
+								<div th:each="e: ${#fields.errors('type')}" th:text="${e}" class="invalid-feedback">
+
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="earnings">Monthly Earnings</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" th:text="${currencySymbol}"></span>
+									</div>
+									<input type="number" name="earnings" id="earnings" class="form-control"
+										aria-label="Earnings (to the nearest rupee)"
+										placeholder="Enter Average Monthly Earnings"
+										onKeyPress="if(this.value.length==10) return false;" required
+										th:value="${incomeSource.earnings==0.0}?'':${incomeSource.earnings}"
+										th:classappend="${#fields.hasErrors('earnings')?'is-invalid':''}">
+									<div th:each="e: ${#fields.errors('earnings')}" th:text="${e}"
+										class="invalid-feedback">
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="note">Note</label>
+								<textarea rows="5" name="note" id="note" class="form-control"
+									th:classappend="${#fields.hasErrors('note')?'is-invalid':''}"
+									th:value="${incomeSource.note}"
+									placeholder="Add any extra notes regarding this income source"></textarea>
+								<div th:each="e: ${#fields.errors('note')}" th:text="${e}" class="invalid-feedback">
+								</div>
+							</div>
+
+
+							<div class="form-group text-center">
+								<button type="submit" class="btn btn-md btn-custom">Add</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

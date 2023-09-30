@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Your Expenses</title>
+</head>
+
+<body>
+	<section>
+		<div class="container">
+			<div class="row py-3">
+				<div class="col-md-8 offset-md-2">
+					<div class="card p-3">
+						<h4 class="text-center"> Your Expenses <i class="fa-solid fa-bag-shopping"></i></h4>
+						<div class="alert text-center mt-2" th:if="${message}" th:text="${message.content}"
+							th:classappend="${message.type}">
+						</div>
+						<div class="mt-2 table-container text-center" th:if="${expenses}">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">Sr. No.</th>
+										<th scope="col">Amount</th>
+										<th scope="col">Date</th>
+										<th scope="col">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="e, status:${expenses}">
+										<th scope="row" th:text="${(currentPage*itemsPerPage)+status.count}"></th>
+										<td th:text="${e.amount}"></td>
+										<td th:text="${e.date}"></td>
+										<td><a class="view-details-link"
+												th:href="@{'/user/expense/view-expense/'+${e.id}}">View Details</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+
+							<nav aria-label="Page navigation example">
+								<ul class="pagination justify-content-center">
+									<li class="page-item" th:if="${currentPage!=0}">
+										<a class="page-link"
+											th:href="@{'/user/expense/view-expenses/'+${currentPage-1}}"
+											aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+									<li class="page-item" th:classappend="${currentPage==p-1?'active':''}"
+										th:each="p:${#numbers.sequence(1, totalPages)}"><a class="page-link"
+											th:href="@{'/user/expense/view-expenses/'+${p-1}}"><span
+												th:text="${p}"></span></a></li>
+									<li class="page-item" th:if="${currentPage!=totalPages-1}">
+										<a class="page-link"
+											th:href="@{'/user/expense/view-expenses/'+${currentPage+1}}"
+											aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+								</ul>
+							</nav>
+
+						</div>
+						<div class="text-center" th:if="${message}">
+							<div class="alert text-center mt-2" th:unless=${sources} th:text="${message.content}"
+								th:classappend="${message.type}">
+							</div>
+							<a th:href="@{/user/expense/add-expense}" class="btn btn-outline-danger btn-md">Add <i
+									class="fa-solid fa-plus"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

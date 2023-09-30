@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="baseFrag(title,content)">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+
+	<title th:replace="${title}">Base Page</title>
+</head>
+
+<body>
+	<!--start of navbar-->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-custom fixed-top">
+		<a class="navbar-brand font-weight-bold" href="#"><i class="fa-solid fa-hand-holding-dollar"></i> SET <span><i th:style="${showSideBar}?'display:none'" ; onclick="toggleSideBar()"
+					class="fa-solid fa-angle-right ml-1"></i></span></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto text-uppercase ">
+				<li class="nav-item active">
+					<a class="nav-link btn-custom" th:href="@{/user/dashboard}">Home </a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link btn-custom" th:text="${username}"></a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link btn-custom" th:href="@{/logout}">Logout</a>
+				</li>
+
+
+
+			</ul>
+		</div>
+	</nav>
+	<!--end of navbar -->
+
+	<!--start of sidebar-->
+	<div class="sidebar" th:style="${showSideBar}?'display:block'" ;>
+		<span class="crossBtn" onclick="toggleSideBar()">&times;</span>
+		<a class="item" th:href="@{/user/dashboard}"><i class="fa-solid fa-house"></i> Home</a>
+		<div class="dropdown show">
+			<a class="item dropdown-toggle " data-toggle="dropdown"><i class="fa-solid fa-bag-shopping"></i> Manage
+				Expenses</a>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" th:href="@{/user/expense/add-expense}"><i class="fa-solid fa-plus mr-2"></i>Add
+					Expense</a>
+				<a class="dropdown-item" th:href="@{/user/expense/view-expenses/0}"><i
+						class="fa-solid fa-eye mr-2"></i>View Expenses</a>
+			</div>
+		</div>
+		<div class="dropdown show">
+			<a class="item dropdown-toggle" data-toggle="dropdown"><i class="fa-solid fa-money-check-dollar"></i> Manage
+				Income Sources</a></a>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" th:href="@{/user/income-source/add-income-source}"><i
+						class="fa-solid fa-plus mr-2"></i>Add Income Source</a>
+				<a class="dropdown-item" th:href="@{/user/income-source/view-income-sources/0}"><i
+						class="fa-solid fa-eye mr-2"></i>View Income Sources</a>
+			</div>
+		</div>
+		<a class="item" th:href="@{/user/savings-goal/set-savings-goal}"><i class="fa-solid fa-piggy-bank"></i> Set
+			Savings Goal</a>
+		<a class="item" th:href="@{/user/view-analysis}"><i class="fa-solid fa-magnifying-glass-chart"></i> View
+			Analysis</a>
+		<a class="item" th:href="@{/user/savings-history}"><i class="fa-solid fa-clock-rotate-left"></i> Savings
+			History</a>
+		<a class="item" th:href="@{/user/edit-profile}"><i class="fa-solid fa-user"></i> Edit Profile</a>
+
+		<a class="item" th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+	</div>
+	<!--end of sidebar-->
+
+	<!--content -->
+	<div class="content" onclick="closeSidebar()">
+		<section th:replace="${content}"></section>
+	</div>
+
+
+
+	<!-- Optional JavaScript -->
+
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+	<script th:src="@{/js/script.js}"></script>
+	
+
+	<script>
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Register</title>
+</head>
+
+<body>
+	<section>
+		<div class="container-fluid">
+			<div class="row py-3">
+				<div class="col-md-6 offset-md-3">
+					<div class="card p-3">
+						<form th:action="@{/do-register}" method="post" th:object="${user}"
+							onsubmit="return validate()">
+							<h4 class="text-center"> Register Yourself <i class="fa-solid fa-user-plus"></i></h4>
+
+							<div class="alert text-center" th:if="${message}" th:text="${message.content}"
+								th:classappend="${message.type}">
+							</div>
+
+							<div class="form-group">
+								<label for="name">Name</label>
+								<input type="text" class="form-control" id="name" name="name"
+									placeholder="Enter Your Name" required th:value="${user.name}" minlength="2"
+									maxlength="30" th:classappend="${#fields.hasErrors('name')?'is-invalid':''}">
+								<div th:each="e: ${#fields.errors('name')}" th:text="${e}" class="invalid-feedback">
+
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="age">Age</label>
+								<input type="number" class="form-control" id="age" name="age"
+									placeholder="Enter Your Age" onKeyPress="if(this.value.length==2) return false;"
+									required th:value="${user.age}"
+									th:classappend="${#fields.hasErrors('age')?'is-invalid':''}">
+								<div th:each="e: ${#fields.errors('age')}" th:text="${e}" class="invalid-feedback">
+
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="currency">Currency</label>
+								<select class="custom-select" name="currency" id="currency"
+									th:classappend="${#fields.hasErrors('currency')?'is-invalid':''}" required>
+									<option selected hidden disabled>Choose Currency</option>
+									<option th:if="${user.currency}" th:value="${user.currency}"
+										th:text="${user.currency}" selected hidden></option>
+									<option value="INR (₹)">Indian Rupee - INR (₹)</option>
+									<option value="USD ($)">United States Dollar - USD ($)</option>
+									<option value="EUR (€)">Euro - EUR (€)</option>
+									<option value="JPY (¥)">Japanese Yen - JPY (¥)</option>
+									<option value="GBP (£)">British Pound Sterling - GBP (£)</option>
+									<option value="CHF (Fr)">Swiss Franc - CHF (Fr)</option>
+									<option value="CAD (C$)">Canadian Dollar - CAD (C$)</option>
+									<option value="AUD (A$)">Australian Dollar - AUD (A$)</option>
+									<option value="CNY (¥)">Chinese Yuan - CNY (¥)</option>
+									<option value="KRW (₩)">South Korean Won - KRW (₩)</option>
+									<option value="BRL (R$)">Brazilian Real - BRL (R$)</option>
+									<option value="RUB (₽)">Russian Ruble - RUB (₽)</option>
+									<option value="ZAR (R)">South African Rand - ZAR (R)</option>
+									<option value="MXN (Mex$)">Mexican Peso - MXN (Mex$)</option>
+									<option value="SGD (S$)">Singapore Dollar - SGD (S$)</option>
+									<option value="HKD (HK$)">Hong Kong Dollar - HKD (HK$)</option>
+									<option value="NZD (NZ$)">New Zealand Dollar - NZD (NZ$)</option>
+									<option value="SEK (kr)">Swedish Krona - SEK (kr)</option>
+									<option value="NOK (kr)">Norwegian Krone - NOK (kr)</option>
+									<option value="DKK (kr)">Danish Krone - DKK (kr)</option>
+									<option value="MYR (RM)">Malaysian Ringgit - MYR (RM)</option>
+									<option value="IDR (Rp)">Indonesian Rupiah - IDR (Rp)</option>
+									<option value="THB (฿)">Thai Baht - THB (฿)</option>
+									<option value="SAR (﷼)">Saudi Riyal - SAR (﷼)</option>
+									<option value="AED (د.إ)">United Arab Emirates Dirham - AED (د.إ)</option>
+									<option value="KWD (د.ك)">Kuwaiti Dinar - KWD (د.ك)</option>
+									<option value="QAR (﷼)">Qatari Riyal - QAR (﷼)</option>
+									<option value="ARS ($)">Argentine Peso - ARS ($)</option>
+									<option value="EGP (ج.م)">Egyptian Pound - EGP (ج.م)</option>
+									<option value="TRY (₺)">Turkish Lira - TRY (₺)</option>
+								</select>
+
+								<div th:each="e: ${#fields.errors('currency')}" th:text="${e}" class="invalid-feedback">
+
+								</div>
+
+							</div>
+
+							<div class="form-group">
+								<label for="name">Email</label>
+								<input type="email" class="form-control" id="email" name="email"
+									placeholder="Enter Your Email" required th:value="${user.email}"
+									th:classappend="${#fields.hasErrors('email') || (errorMessage!=null && errorMessage.type=='emailError')?'is-invalid':''}">
+								<div th:each="e: ${#fields.errors('email')}" th:text="${e}" class="invalid-feedback">
+								</div>
+								<div th:if="${errorMessage}" class="invalid-feedback" th:text="${errorMessage.content}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="phone">Phone No.</label>
+								<input type="number" class="form-control" id="phone" name="phone"
+									placeholder="Enter Your Phone Number"
+									pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$"
+									title="Valid 10 digit Indian phone number" required
+									onKeyPress="if(this.value.length==10) return false;" th:value="${user.phone}"
+									th:classappend="${#fields.hasErrors('phone') || (errorMessage!=null && errorMessage.type=='phoneError')?'is-invalid':''}"
+									onchange="phoneChange();" onpaste="this.onchange();" oninput="this.onchange();">
+								<div th:each="e: ${#fields.errors('phone')}" th:text="${e}" class="invalid-feedback">
+
+								</div>
+								<div th:if="${errorMessage}" class="invalid-feedback" th:text="${errorMessage.content}">
+
+								</div>
+
+								<div class="p-conf">Number Verified</div>
+
+								<div id="recaptcha-container" style="margin-top:20px; margin-bottom:20px;"></div>
+								<input type="button" class="btn badge-pill btn-custom" value="Send OTP"
+									onclick="phoneAuth()" id="sendotp">
+							</div>
+
+							<div class="form-group" id="verifier" style="display: none;">
+								<label for="exampleInputEmail1">Enter OTP</label> <input type="number"
+									class="form-control" id="otpverify" aria-describedby="emailHelp" name="otpverify"
+									pattern="^[0-9]{1,6}$" title="6 digit OTP"
+									onKeyPress="if(this.value.length==6) return false;"> <br>
+								<input type="button" class="btn badge-pill btn-custom" value="Verify"
+									onclick="codeverify()">
+								<div class="n-conf">Incorrect OTP</div>
+							</div>
+
+
+							<div class="form-group">
+								<label for="goals">Write A Few Words About Your Savings Goal</label>
+								<textarea class="form-control" rows="10" placeholder="Set Some Saving Goals" required
+									id="goals" name="goals" th:text="${user.goals}" maxlength="500"
+									th:classappend="${#fields.hasErrors('goals')?'is-invalid':''}"></textarea>
+								<div th:each="e: ${#fields.errors('goals')}" th:text="${e}" class="invalid-feedback">
+								</div>
+
+							</div>
+
+							<div class="form-group">
+								<label for="password">Password</label> <input type="password" class="form-control"
+									id="password" name="password" required
+									pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
+									title="Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character"
+									minlength="8" maxlength="256" placeholder="Enter A Password"
+									th:classappend="${#fields.hasErrors('password') || (errorMessage!=null && errorMessage.type=='passwordError')?'is-invalid':''}">
+								<div th:each="e: ${#fields.errors('password')}" th:text="${e}" class="invalid-feedback">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="cpassword">Confirm Password</label> <input required type="password"
+									class="form-control" id="cpassword" name="cpassword" placeholder="Re-enter Password"
+									th:classappend="${(errorMessage!=null && errorMessage.type=='passwordError')?'is-invalid':''}">
+								<div th:if="${errorMessage}" th:text="${errorMessage.content}" class="invalid-feedback">
+								</div>
+							</div>
+
+							<div class="form-group text-center">
+								<div class="form-check">
+									<input type="checkbox" id="terms" name="terms" class="form-check-input"
+										aria-label="Checkbox for following text input"
+										th:class="${errorMessage!=null && errorMessage.type=='termsError'} ? 'form-check-input is-invalid' : 'form-check-input'" required>
+									<label for="terms" class="form-check-label">I agree with all the terms and
+										conditions</label>
+									<div th:if="${errorMessage}" class="invalid-feedback">
+										<small th:text="${errorMessage.content}"></small>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="form-group text-center">
+								<button type="submit" class="btn btn-md btn-custom" id="submitbtn"
+									title="Verify your phone number to register" disabled>Register</button>
+								<button type="reset" class="btn btn-md btn-custom-sec">Reset</button>
+							</div>
+							<div class="form-group text-center">
+								<p>
+									Have an account? <a th:href="@{/login}">Login</a>
+								</p>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="module" th:src="@{/js/register.js}"></script>
+		<script type="module" th:inline="javascript">
+			import {phoneAuth, codeverify, render, phoneChange, validate} from /*[[@{/js/register.js}]]*/;
+			window.phoneAuth = phoneAuth;
+			window.codeverify = codeverify;
+			window.phoneChange = phoneChange;
+			window.validate = validate;
+			window.addEventListener("load", phoneChange);
+			window.addEventListener("load", render);
+
+		</script>
+	</section>
+</body>
+
+</html>

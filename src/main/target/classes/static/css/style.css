@@ -1,0 +1,192 @@
+@charset "ISO-8859-1";
+
+body {
+	background-color: #F7C5CC !important;
+}
+
+section {
+	margin-top: 60px;
+}
+
+.bg-primary {
+	background-color: #CC313D !important;
+}
+
+.btn-custom {
+	background-color: #CC313D !important;
+	-webkit-text-stroke-width: 0px;
+	border-radius: 5px;
+	color: white;
+}
+
+.btn-custom:hover {
+	background-color: #b0182d !important;
+	-webkit-text-stroke-width: 0px;
+
+
+}
+
+.btn-custom-sec {
+	background-color: #620d19 !important;
+	-webkit-text-stroke-width: 0px;
+	border-radius: 5px;
+	color: white;
+}
+
+.btn-custom-sec:hover {
+	background-color: #4e0b14 !important;
+	-webkit-text-stroke-width: 0px;
+}
+
+/*home page banner*/
+.banner {
+	width: 100%;
+	height: 90vh;
+	background: linear-gradient(rgba(247, 197, 204, .8), rgba(247, 197, 204, .8)), url("../images/expense-reimbursements.png");
+	color: white;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: #CC313D;
+	background-size: cover;
+}
+
+/*register page card*/
+.card {
+	background-color: #fff !important;
+}
+
+/*for number type input*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+
+/*sidebar*/
+@media(max-width:767px) {
+	.sidebar {
+		height: 100vh !important;
+		width: 60% !important;
+	}
+
+	.content {
+		margin-left: 0% !important;
+	}
+}
+
+.sidebar {
+	height: 100%;
+	position: fixed;
+	z-index: 2;
+	display: none;
+	background-color: #fff;
+	padding: 10px;
+	padding-top: 50px;
+	width: 18%;
+	border-right: 3px solid #e2e2e2;
+}
+
+.item {
+	display: block;
+	color: black;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.item:hover {
+	background-color: #CC313D;
+	text-decoration: none;
+	color: white !important;
+}
+
+.item i {
+	margin-right: 5px;
+}
+
+.item i:hover {
+	background-color: #b0182d !important;
+}
+
+.dropdown-menu {
+	padding: 5px;
+}
+
+.dropdown-item {
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.dropdown-item:hover {
+	background-color: #CC313D;
+	color: white !important;
+}
+
+/*cross btn*/
+.crossBtn {
+	position: absolute;
+	top: 0px;
+	right: 20px;
+	font-size: 30px;
+	cursor: pointer;
+}
+
+/*for navbar sidebar enable button*/
+.navbar-brand i {
+	padding: 5px !important;
+}
+
+.navbar-brand i:hover {
+	background-color: #b0182d !important;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+/*pagination styling*/
+
+.page-link {
+	color: #b0182d !important;
+}
+
+.page-link:hover {
+	background-color: #b0182d !important;
+	color: #fff !important;
+	border: 1px solid #b0182d !important;
+}
+
+.pagination>.active>a {
+	background-color: #fff !important;
+	border: 1px solid #b0182d !important;
+}
+
+.pagination>.active>a:hover {
+	background-color: #b0182d !important;
+	color: #fff !important;
+	border: 1px solid #b0182d !important;
+}
+
+/*table container - to avoid overflow y */
+.table-container {
+	word-break: break-all;
+}
+
+/*view details link*/
+.view-details-link {
+	color: #b0182d !important;
+}
+
+/*for all read-only input*/
+input[readonly] {
+	/* Your styles for read-only input elements */
+	background-color: #fff !important;
+	/* Example background color */
+	color: #000;
+	/* Example text color */
+	border: 1px solid #ccc;
+	/* Example border style */
+}
+
+.notes-card{
+	border: 1px solid #ccc;	
+	color: #000!important;
+	height: 150px;
+}

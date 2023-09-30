@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Income Source Details</title>
+</head>
+
+<body>
+	<section>
+
+		<div class="container-fluid">
+			<div class="row py-3">
+				<div class="col-md-8 offset-md-2">
+					<div class="card p-4">
+						<h4 class="text-center">Income Source Details <i class="fa-solid fa-bag-shopping"></i></h4>
+						<div class="alert text-center mt-2" th:if="${source} and ${updateMessage}"
+							th:text="${updateMessage.content}" th:classappend="${updateMessage.type}">
+						</div>
+						<div class="mt-2 table-container" th:if="${source}">
+							<div class="form-group">
+								<label for="name" class="font-weight-bold">Description</label>
+								<input type="text" id="description" name="description" class="form-control"
+									th:value="${source.description}" readonly>
+							</div>
+
+
+							<div class="form-group">
+								<label for="type" class="font-weight-bold">Type</label>
+
+								<input type="text" name="type" class="form-control" th:value="${source.type}" readonly>
+							</div>
+							<div class="form-group">
+								<label for="amount" class="font-weight-bold">Monthly Earnings</label>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" th:text="${currencySymbol}"></span>
+									</div>
+									<input type="number" name="earnings" id="earnings" class="form-control"
+										aria-label="Amount (to the nearest rupee)" th:value="${source.earnings}"
+										readonly>
+
+								</div>
+							</div>
+
+							<div th:if="${source.note}">
+								<div class="form-group" th:if="${#strings.length(source.note)>0}">
+									<label for="note" class="font-weight-bold">Note</label>
+									<div class="notes-card form-control" th:utext="${source.note}">
+
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group text-center mt-2">
+								<a class="btn btn-md btn-primary mr-2 text-white"
+									th:href="@{'/user/income-source/update-income-source/'+${source.isId}}"><i
+										class="fa-solid fa-pen-to-square"></i> Update</a>
+								<button type="reset"
+									th:onclick="|deleteItem('/user/income-source/delete-income-source/',${source.isId},'-1')|"
+									class="btn btn-md btn-danger"><i class="fa-solid fa-trash"></i>
+									Delete</button>
+							</div>
+						</div>
+						<div class="alert text-center mt-2" th:unless=${source} th:if="${message}"
+							th:text="${message.content}" th:classappend="${message.type}">
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

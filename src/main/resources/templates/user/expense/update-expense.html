@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Update Expense</title>
+</head>
+
+<body>
+	<section>
+		<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+		<script>
+			tinymce.init({
+				selector: '#note'
+			});
+		</script>
+		<div class="container-fluid">
+			<div class="row py-3">
+				<div class="col-md-8 offset-md-2">
+					<div class="card p-4">
+						<h4 class="text-center"> Update Expense <i class="fa-solid fa-bag-shopping"></i></h4>
+
+						<div class="form-container" th:if="${expense}">
+							<form th:action="@{/user/expense/do-update-expense}" method="post" th:object="${expense}"
+								onsubmit="return validate()">
+								<input type="hidden" name="expId" th:value="${expense.expId}">
+								<div class="form-group">
+									<label for="name">Description</label>
+									<input type="text" id="description" name="description" class="form-control"
+										placeholder="Enter Expense Description" required
+										th:value="${expense.description}" minlength="2" maxlength="100"
+										th:classappend="${#fields.hasErrors('description')?'is-invalid':''}">
+									<div th:each="e: ${#fields.errors('description')}" th:text="${e}"
+										class="invalid-feedback">
+
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="type">Type</label>
+									<select class="custom-select" name="type" id="type"
+										th:classappend="${#fields.hasErrors('type')?'is-invalid':''}" required>
+										<option selected hidden disabled>Choose Expense Type</option>
+										<option th:if="${expense.type}" th:value="${expense.type}"
+											th:text="${expense.type}" selected hidden>
+										</option>
+										<option
+											title="This includes Mortgage or rent, Property taxes, Household repairs, HOA fees"
+											value="Housing">Housing</option>
+										<option
+											title="This includes Car payment, Car warranty, Gas, Tires, Maintenance and oil changes, Parking fees, Repairs, Registration and DMV Fees"
+											value="Transportation">Transportation</option>
+										<option title="This includes Groceries, Restaurants, Pet food" value="Food">Food
+										</option>
+										<option
+											title="This includes Electricity, Water, Garbage, Phones, Cable, Internet"
+											value="Utilities">Utilities</option>
+										<option
+											title="This includes Adults’ clothing, Adults’ shoes, Children’s clothing, Children’s shoes"
+											value="Clothing">Clothing</option>
+										<option
+											title="This includes Primary care, Dental care, Specialty care (dermatologists, orthodontics, optometrists, etc.), Urgent care, Medications, Medical devices"
+											value="Medical/Healthcare">Medical/Healthcare</option>
+										<option
+											title="This includes Health insurance, Homeowner’s or renter’s insurance, Home warranty or protection plan, Auto insurance, Life insurance, Disability insurance"
+											value="Insurance">Insurance</option>
+										<option
+											title="This includes Toiletries, Laundry detergent, Dishwasher detergent, Cleaning supplies, Tools"
+											value="Household Items/Supplies">Household Items/Supplies</option>
+										<option
+											title="This includes Gym memberships, Haircuts, Salon services, Cosmetics (like makeup or services like laser hair removal), Babysitter, Subscriptions"
+											value="Personal">Personal</option>
+										<option title="This includes Personal loans, Student loans, Credit cards"
+											value="Debt">Debt</option>
+										<option title="This includes Financial planning, Investing" value="Retirement">
+											Retirement</option>
+										<option
+											title="This includes Children’s college, Your college, School supplies, Books"
+											value="Education">Education</option>
+										<option
+											title="This includes Birthday, Anniversary, Wedding, Christmas, Special occasion, Charities"
+											value="Gifts/Donations">Gifts/Donations</option>
+										<option
+											title="This includes Alcohol and/or bars, Games, Movies, Concerts, Vacations, Subscriptions (Netflix, Amazon, Hulu, etc.)"
+											value="Entertainment">Entertainment</option>
+									</select>
+									<div th:each="e: ${#fields.errors('type')}" th:text="${e}" class="invalid-feedback">
+
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="amount">Amount</label>
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text" th:text="${currencySymbol}"></span>
+										</div>
+										<input type="number" name="amount" id="amount " class="form-control"
+											aria-label="Amount (to the nearest rupee)" placeholder="Enter Amount"
+											onKeyPress="if(this.value.length==10) return false;" required
+											th:value="${expense.amount==0.0}?'':${expense.amount}"
+											th:classappend="${#fields.hasErrors('amount')?'is-invalid':''}">
+										<div th:each="e: ${#fields.errors('amount')}" th:text="${e}"
+											class="invalid-feedback">
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="date">Date</label>
+									<input type="text" id="date" name="date" class="form-control"
+										th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+										th:classappend="${#fields.hasErrors('date')?'is-invalid':''}"
+										th:value="${expense.date}" onfocus="(this.type='date')"
+										onblur="(this.type='text')" placeholder="Enter Date (dd/mm/yyyy)" required>
+									<div th:each="e: ${#fields.errors('date')}" th:text="${e}" class="invalid-feedback">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="note">Note</label>
+									<textarea rows="5" name="note" id="note" class="form-control"
+										th:classappend="${#fields.hasErrors('note')?'is-invalid':''}"
+										placeholder="Add any extra notes regarding this expense"><span th:text="${expense.note}"></span></textarea>
+									<div th:each="e: ${#fields.errors('note')}" th:text="${e}" class="invalid-feedback">
+									</div>
+								</div>
+
+								<div class="form-group text-center">
+									<button type="submit" class="btn btn-md btn-custom">Update</button>
+								</div>
+							</form>
+						</div>
+						<div class="alert text-center mt-2" th:unless=${expense} th:if="${message}"
+							th:text="${message.content}" th:classappend="${message.type}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Home</title>
+</head>
+
+<body>
+	<section class="banner d-flex justify-content-center align-items-center">
+		<div class="text-center" >
+			<h1 class="font-weight-bold">Smart Expense Tracker</h1>
+			<h4 class="font-weight-bold">"Track, Manage, and Master Your Finances with Ease: Your Ultimate Expense Tracking Solution"</h4>
+			<a class="btn btn-md btn-custom text-white mt-3" th:href="@{/register}">Get Started</a>
+		</div>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Your Expenses</title>
+</head>
+
+<body>
+	<section>
+		<div class="container-fluid">
+			<div class="row py-3">
+				<div class="col-md-8 offset-md-2">
+					<div class="card p-4">
+						<h4 class="text-center"> Your Expenses <i class="fa-solid fa-bag-shopping"></i></h4>
+						<div th:if="${expenses}">
+							<div class="alert text-center mt-2" th:if="${message}" th:text="${message.content}"
+								th:classappend="${message.type}">
+							</div>
+						</div>
+						<form method="get" th:action="@{/user/expense/view-expenses/0}" th:if="${expenses}">
+							<div class="form-group mt-3 px-5" >
+								<label for="month">Choose Month</label>
+								<select class="custom-select mr-3" name="month" id="month" required>
+									<option selected>Any</option>
+									<option th:each="my, status:${monthYearList}" th:value="${my}" th:text="${my}">
+									</option>								
+									<option selected hidden th:if="${month}" th:value="${month}" th:text="${month}">
+									</option>
+								</select>
+							</div>
+							<div class="form-group text-center">
+								<button type="submit" class="btn btn-md btn-custom">Show</button>
+							</div>
+						</form>
+						<div class="mt-2 table-container text-center" th:if="${expenses}">
+							<table class="table table-responsive-sm">
+								<thead>
+									<tr>
+										<th scope="col">Sr. No.</th>
+										<th scope="col">Amount</th>
+										<th scope="col">Date</th>
+										<th scope="col">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="e, status:${expenses}">
+										<th scope="row" th:text="${(currentPage*itemsPerPage)+status.count}"></th>
+										<td th:text="${currencySymbol+' '+e.amount}"></td>
+										<td th:text="${e.date}"></td>
+										<td><a class="view-details-link"
+												th:href="@{'/user/expense/view-expense/'+${e.expId}+'/'+${currentPage}}">View
+												Details</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+
+							<nav aria-label="Page navigation example">
+								<ul class="pagination justify-content-center">
+									<li class="page-item" th:if="${currentPage!=0}">
+										<form method="get"
+											th:action="@{'/user/expense/view-expenses/'+${currentPage-1}}">
+											<input type="hidden" name="month" th:if="${month}" th:value="${month}">
+											<button type="submit" class="page-link" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+												<span class="sr-only">Previous</span>
+											</button>
+										</form>
+									</li>
+									<li class="page-item" th:classappend="${currentPage==p-1?'active':''}"
+										th:each="p:${#numbers.sequence(1, totalPages)}">
+										<form method="get" th:action="@{'/user/expense/view-expenses/'+${p-1}}">
+											<input type="hidden" name="month" th:if="${month}" th:value="${month}">
+											<button type="submit" class="page-link"><span
+													th:text="${p}"></span></button>
+										</form>
+									</li>
+
+									<li class="page-item" th:if="${currentPage!=totalPages-1}">
+										<form method="get"
+											th:action="@{'/user/expense/view-expenses/'+${currentPage+1}}">
+											<input type="hidden" name="month" th:if="${month}" th:value="${month}">
+											<input type="hidden" name="month" th:unless="${month}" th:value="null">
+											<button class="page-link" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+												<span class="sr-only">Next</span>
+											</button>
+									</li>
+								</ul>
+							</nav>
+
+
+						</div>
+						<div class="text-center" th:unless=${expenses} th:if="${message}">
+							<div class="alert text-center mt-2" th:text="${message.content}"
+								th:classappend="${message.type}">
+							</div>
+							<a th:href="@{/user/expense/add-expense}" class="btn btn-md btn-custom">Add <i
+									class="fa-solid fa-plus"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

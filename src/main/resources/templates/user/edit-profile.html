@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base::baseFrag(~{::title},~{::section})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Edit Profile</title>
+</head>
+
+<body>
+	<section>
+		<div class="container-fluid">
+			<div class="row py-3">
+				<div class="col-md-8 offset-md-2">
+					<div class="card p-4">
+						<h4 class="text-center"> Edit Profile <i class="fa-solid fa-user"></i></h4>
+
+						<ul class="nav nav-tabs mx-auto mt-4" id="myTab" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link" th:classappend="${tab==1?'active':''}" id="home-tab"
+									data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+									<h6 class="font-weight-bold">General Info</h6>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" th:classappend="${tab==2?'active':''}" id="profile-tab"
+									data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+									aria-selected="false">
+									<h6 class="font-weight-bold">Password</h6>
+								</a>
+							</li>
+						</ul>
+
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade" th:classappend="${tab==1?'show active':''}" id="home"
+								role="tabpanel" aria-labelledby="home-tab">
+								<div class="px-3 pt-4">
+									<form th:action="@{do-edit-gen-info}" method="post" th:object="${user}"
+										id="edit-form" onsubmit="return validateEmail();">
+										
+										<div class="alert text-center" th:if="${genMessage}" th:text="${genMessage.content}"
+											th:classappend="${genMessage.type}">
+										</div>
+										
+										<input type="hidden" th:value="${user.id}">
+
+										<div class="form-group">
+											<label for="name">Name</label>
+											<input type="text" class="form-control" id="name" name="name"
+												placeholder="Enter Your Name" required th:value="${user.name}"
+												minlength="2" maxlength="30"
+												th:classappend="${#fields.hasErrors('name')?'is-invalid':''}">
+											<div th:each="e: ${#fields.errors('name')}" th:text="${e}"
+												class="invalid-feedback">
+
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="currency">Currency</label>
+											<select class="custom-select" name="currency" id="currency"
+												th:classappend="${#fields.hasErrors('currency')?'is-invalid':''}"
+												required>
+												<option selected hidden disabled>Choose Currency</option>
+												<option th:if="${user.currency}" th:value="${user.currency}"
+													th:text="${user.currency}" selected hidden></option>
+												<option value="INR (₹)">Indian Rupee - INR (₹)</option>
+												<option value="USD ($)">United States Dollar - USD ($)</option>
+												<option value="EUR (€)">Euro - EUR (€)</option>
+												<option value="JPY (¥)">Japanese Yen - JPY (¥)</option>
+												<option value="GBP (£)">British Pound Sterling - GBP (£)</option>
+												<option value="CHF (Fr)">Swiss Franc - CHF (Fr)</option>
+												<option value="CAD (C$)">Canadian Dollar - CAD (C$)</option>
+												<option value="AUD (A$)">Australian Dollar - AUD (A$)</option>
+												<option value="CNY (¥)">Chinese Yuan - CNY (¥)</option>
+												<option value="KRW (₩)">South Korean Won - KRW (₩)</option>
+												<option value="BRL (R$)">Brazilian Real - BRL (R$)</option>
+												<option value="RUB (₽)">Russian Ruble - RUB (₽)</option>
+												<option value="ZAR (R)">South African Rand - ZAR (R)</option>
+												<option value="MXN (Mex$)">Mexican Peso - MXN (Mex$)</option>
+												<option value="SGD (S$)">Singapore Dollar - SGD (S$)</option>
+												<option value="HKD (HK$)">Hong Kong Dollar - HKD (HK$)</option>
+												<option value="NZD (NZ$)">New Zealand Dollar - NZD (NZ$)</option>
+												<option value="SEK (kr)">Swedish Krona - SEK (kr)</option>
+												<option value="NOK (kr)">Norwegian Krone - NOK (kr)</option>
+												<option value="DKK (kr)">Danish Krone - DKK (kr)</option>
+												<option value="MYR (RM)">Malaysian Ringgit - MYR (RM)</option>
+												<option value="IDR (Rp)">Indonesian Rupiah - IDR (Rp)</option>
+												<option value="THB (฿)">Thai Baht - THB (฿)</option>
+												<option value="SAR (﷼)">Saudi Riyal - SAR (﷼)</option>
+												<option value="AED (د.إ)">United Arab Emirates Dirham - AED (د.إ)
+												</option>
+												<option value="KWD (د.ك)">Kuwaiti Dinar - KWD (د.ك)</option>
+												<option value="QAR (﷼)">Qatari Riyal - QAR (﷼)</option>
+												<option value="ARS ($)">Argentine Peso - ARS ($)</option>
+												<option value="EGP (ج.م)">Egyptian Pound - EGP (ج.م)</option>
+												<option value="TRY (₺)">Turkish Lira - TRY (₺)</option>
+											</select>
+
+											<div th:each="e: ${#fields.errors('currency')}" th:text="${e}"
+												class="invalid-feedback">
+
+											</div>
+
+											<div class="alert alert-warning mt-2">
+												<small>
+													Please note that changing the currency preference will not
+													automatically
+													convert previously inserted amounts to the new currency. Only the
+													currency
+													label will change to match your preference. The original amounts
+													will remain
+													in their original currency.
+												</small>
+											</div>
+
+										</div>
+
+										<input type="hidden" th:value="${oldEmail}" name="oldEmail" id="oldEmail">
+										<div class="form-group">
+											<label for="name">Email</label>
+											<input type="email" class="form-control" id="email" name="email"
+												placeholder="Enter Your Email" required th:value="${user.email}"
+												th:classappend="${#fields.hasErrors('email') || (errorMessage!=null && errorMessage.type=='emailError')?'is-invalid':''}">
+											<div th:each="e: ${#fields.errors('email')}" th:text="${e}"
+												class="invalid-feedback">
+											</div>
+											<div th:if="${errorMessage}" class="invalid-feedback"
+												th:text="${errorMessage.content}">
+											</div>
+										</div>
+
+										<input type="hidden" th:value="${oldPhone}" name="oldPhone">
+										<div class="form-group">
+											<label for="phone">Phone No.</label>
+											<input type="number" class="form-control" id="phone" name="phone"
+												placeholder="Enter Your Phone Number"
+												pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$"
+												title="Valid 10 digit Indian phone number" required
+												onKeyPress="if(this.value.length==10) return false;"
+												th:value="${user.phone}"
+												th:classappend="${#fields.hasErrors('phone') || (errorMessage!=null && errorMessage.type=='phoneError')?'is-invalid':''}"
+												onchange="phoneChange();" onpaste="this.onchange();"
+												oninput="this.onchange();">
+											<div th:each="e: ${#fields.errors('phone')}" th:text="${e}"
+												class="invalid-feedback">
+											</div>
+											<div th:if="${errorMessage}" class="invalid-feedback"
+												th:text="${errorMessage.content}">
+
+											</div>
+											<div class="p-conf">Number Verified</div>
+											<div id="recaptcha-container"
+												style="margin-top:20px; margin-bottom:20px; display:none"></div>
+											<input type="button" class="btn btn-custom badge-pill" value="Send OTP"
+												onclick="phoneAuth()" id="sendotp">
+										</div>
+
+										<div class="form-group" id="verifier" style="display: none;">
+											<label for="exampleInputEmail1">Enter OTP</label> <input type="number"
+												class="form-control" id="otpverify" aria-describedby="emailHelp"
+												name="otpverify" pattern="^[0-9]{1,6}$" title="6 digit OTP"
+												onKeyPress="if(this.value.length==6) return false;"> <br>
+											<a class="btn btn-custom badge-pill" onclick="codeverify()">Verify</a>
+											<div class="n-conf">Incorrect OTP</div>
+										</div>
+
+
+										<div class="form-group">
+											<label for="goals">Write A Few Words About Your Savings Goal</label>
+											<textarea class="form-control" rows="10" placeholder="Set Some Saving Goals"
+												required id="goals" name="goals" th:text="${user.goals}" maxlength="500"
+												th:classappend="${#fields.hasErrors('goals')?'is-invalid':''}"></textarea>
+											<div th:each="e: ${#fields.errors('goals')}" th:text="${e}"
+												class="invalid-feedback">
+											</div>
+										</div>
+										<div class="text-center mt-4 mb-2">
+											<button type="submit" class="btn btn-md btn-custom" id="updatebtn">Save
+												Changes</button>
+										</div>
+									</form>
+								</div>
+							</div>
+
+
+							<!--expense pie-->
+							<div class="tab-pane fade" th:classappend="${tab==2?'show active':''}" id="profile"
+								role="tabpanel" aria-labelledby="profile-tab">
+								<div class="px-3 pt-4">
+									<form th:action="@{do-edit-password}" method="post" id="edit-pass"
+										onsubmit="return validatePassword()">
+
+										<div class="alert text-center" th:if="${passMessage}" th:text="${passMessage.content}"
+											th:classappend="${passMessage.type}">
+										</div>
+
+										<div class="form-group">
+											<label for="cpassword">Current Password</label> <input required
+												type="password" class="form-control" id="cpassword" name="cpassword"
+												th:classappend="${(errorMessage!=null && errorMessage.type=='cpasswordError')?'is-invalid':''}"
+												placeholder="Enter Current Password">
+											<div th:if="${errorMessage}" class="invalid-feedback"
+												th:text="${errorMessage.content}">
+											</div>
+										</div>
+
+
+										<div class="form-group">
+											<label for="npassword">New Password</label> <input type="password"
+												class="form-control" id="npassword" name="npassword" required
+												pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*\-]).{8,}$"
+												title="Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character"
+												minlength="8" maxlength="256" placeholder="Enter New Password"
+												th:classappend="${(errorMessage!=null && errorMessage.type=='npasswordError')?'is-invalid':''}">
+											<div th:if="${errorMessage}" class="invalid-feedback"
+												th:text="${errorMessage.content}">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="ccpassword">Confirm Password</label> <input required
+												type="password" class="form-control" id="ccpassword" name="ccpassword"
+												placeholder="Re-enter New Password"
+												th:classappend="${(errorMessage!=null && errorMessage.type=='ccpasswordError')?'is-invalid':''}">
+											<div th:if="${errorMessage}" class="invalid-feedback"
+												th:text="${errorMessage.content}">
+											</div>
+										</div>
+										<div class="text-center mt-4 mb-2">
+											<button type="submit" class="btn btn-md btn-custom">Save Changes</button>
+										</div>
+									</form>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script th:src="@{/js/password-change.js}"></script>
+		<!--<script th:src="@{/js/edit-profile.js}"></script>-->
+		<script type="module" th:src="@{/js/edit-profile.js}"></script>
+		<script type="module" th:inline="javascript">
+			import {phoneAuth, codeverify, render, phoneChange, validateEmail, validatePassword} from /*[[@{/js/edit-profile.js}]]*/;
+			window.phoneAuth = phoneAuth;
+			window.codeverify = codeverify;
+			window.phoneChange = phoneChange;
+			window.validateEmail = validateEmail;
+			window.validatePassword = validatePassword;
+			window.addEventListener("load", render);
+			window.addEventListener("load", phoneChange);
+		</script>
+	</section>
+</body>
+
+</html>
