@@ -8,7 +8,7 @@ public class ConvertListToMap {
 	public static Map<String, Double> convertToStrDouble(List<Object[]> list) {
 		Map<String, Double> map = new HashMap<>();
 		for (Object[] objects : list) {
-			String key = (String) objects[0];
+			String key = objects[0].toString();
 			Double value = Double.parseDouble(String.valueOf(objects[1]));
 			map.put(key, value);
 		}

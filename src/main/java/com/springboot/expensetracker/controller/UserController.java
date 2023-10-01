@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -81,11 +80,8 @@ public class UserController {
 			} else {
 
 				model.addAttribute("showSideBar", true);
-				LocalDate date = LocalDate.now();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-				String currentMonth = date.format(formatter);
 
-				handleExpenseReportSection(user, model, currentMonth);
+				handleExpenseReportSection(user, model, DateHelper.getCurrentMonth());
 				handleSavingsMeterSection(user, model, DateHelper.getCurrentMonth());
 
 				GetSaveablePercentage percentage = new GetSaveablePercentage();
@@ -404,16 +400,20 @@ public class UserController {
 			selectedYearLine = filteredYears.get(0);
 		}
 
-		if (filteredMonths.isEmpty()) {
-			String selectedMonthER = DateHelper.getCurrentMonth();
-			filteredMonths.add(selectedMonthER);
+		if (!filteredMonths.contains(DateHelper.getCurrentMonth())) {
+			filteredMonths.add(0, DateHelper.getCurrentMonth());
 		}
 
 		Map<String, Double> incomeByMonth = new HashMap<>();
 		for (String month : filteredMonths) {
 			if (month.startsWith(selectedYearLine)) {
-				incomeByMonth.put(month.substring(6),
-						incomeChangeRepository.getTotalEarnings(user.getId(), month + "-01"));
+				if (month.charAt(5) != '0') {
+					incomeByMonth.put(month.substring(5),
+							incomeChangeRepository.getTotalEarnings(user.getId(), month + "-01"));
+				} else {
+					incomeByMonth.put(month.substring(6),
+							incomeChangeRepository.getTotalEarnings(user.getId(), month + "-01"));
+				}
 			}
 		}
 		List<Object[]> list2 = expenseRepository.getExpenseAmountsByMonthByYear(user.getId(), selectedYearLine);
@@ -438,18 +438,18 @@ public class UserController {
 		List<String> monthYearList = expenseRepository.getMonthYearList(user);
 		List<String> filteredMonths = DateHelper.filterMonths(monthYearList, firstIncomeMonthStr);
 
-		if (selectedMonthER == null || selectedMonthER.isEmpty() || !filteredMonths.contains(selectedMonthER)) {
-			if (!filteredMonths.isEmpty()) {
-				selectedMonthER = filteredMonths.get(0);
-			} else {
-				selectedMonthER = DateHelper.getCurrentMonth();
-				System.out.println("Hey reaching here" + selectedMonthER);
+		if (selectedMonthER == null || selectedMonthER.isEmpty() || (!filteredMonths.contains(selectedMonthER)
+				&& !selectedMonthER.equals(DateHelper.getCurrentMonth()))) {
 
-				System.out.println(filteredMonths + "skdjsdj");
-				filteredMonths.add(selectedMonthER);
-			}
+			selectedMonthER = DateHelper.getCurrentMonth();
+			System.out.println("Hey reaching here" + selectedMonthER);
+
+			System.out.println(filteredMonths + "skdjsdj");
+			filteredMonths.add(0, selectedMonthER);
+
 		}
 
+		System.out.println("Filtered Months after add: " + filteredMonths);
 		System.out.println("months: " + filteredMonths);
 
 		Double totalExpenseAmtER = expenseRepository.getTotalExpenseAmountByMonth(user, selectedMonthER);

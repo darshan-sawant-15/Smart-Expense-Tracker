@@ -181,7 +181,7 @@
 				<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 				<script th:inline="javascript">
 					const showAlertWarning = [[${(saveablePercent < 50) ? true : false}]];
-					const showAlertDanger = [[${saveablePercent< 25? true: false}]];
+					const showAlertDanger = [[${(saveablePercent< 25)? true: false}]];
 					if (showAlertWarning) {
 						Swal.fire({
 							text: "Your Savings Meter is below 50%",
