@@ -127,7 +127,7 @@ public class UserController {
 			if (bindingResult.hasErrors()) {
 				System.out.println(bindingResult);
 				model.addAttribute("tab", 1);
-				return "/user/edit-profile";
+				return "user/edit-profile";
 			}
 			String newPhone = updatedUser.getPhone();
 			String newEmail = updatedUser.getEmail();
@@ -275,7 +275,7 @@ public class UserController {
 			e.printStackTrace();
 			model.addAttribute("message", new Message("Something went wrong", "alert-danger"));
 		}
-		return "/user/savings-history";
+		return "user/savings-history";
 	}
 
 	@GetMapping("/view-analysis")
@@ -309,7 +309,7 @@ public class UserController {
 			e.printStackTrace();
 			model.addAttribute("message", new Message("Something went wrong", "alert-danger"));
 		}
-		return "/user/view-analysis";
+		return "user/view-analysis";
 	}
 
 	private void setTab(Model model, Integer tab) {
