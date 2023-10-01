@@ -71,7 +71,7 @@ function searchExpenses(currentPage) {
 	const query = $("#search-input").val();
 	const month = $("#month").val();
 	console.log(query + " " + month);
-	const url = `http://localhost:8080/user/expense/search-expense/${query}/${month}`;
+	const url = `/user/expense/search-expense/${query}/${month}`;
 	if (query === "") {
 		$(".search-result").hide();
 	} else {
