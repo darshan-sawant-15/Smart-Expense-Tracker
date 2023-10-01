@@ -23,20 +23,21 @@
 								<thead>
 									<tr>
 										<th scope="col">Sr. No.</th>
+										<th scope="col">Description</th>
 										<th scope="col">Type</th>
 										<th scope="col">Earnings</th>
-										<th scope="col">Actions</th>
+
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="is, status:${sources}">
 										<th scope="row" th:text="${(currentPage*itemsPerPage)+status.count}"></th>
+										<td><a class="view-details-link" th:text="${is.description}"
+											th:href="@{'/user/income-source/view-income-source/'+${is.isId}}"></a></td>
 										<td th:text="${is.type}">
 										</td>
 										<td th:text="${currencySymbol+' '+is.earnings}"></td>
-										<td><a class="view-details-link"
-												th:href="@{'/user/income-source/view-income-source/'+${is.isId}}">View
-												Details</a></td>
+
 									</tr>
 								</tbody>
 							</table>
@@ -68,11 +69,12 @@
 							</nav> -->
 
 						</div>
-						<div class="text-center" th:unless=${sources}  th:if="${message}">
-							<div class="alert text-center mt-2" 
-								th:text="${message.content}" th:classappend="${message.type}">
+						<div class="text-center" th:unless=${sources} th:if="${message}">
+							<div class="alert text-center mt-2" th:text="${message.content}"
+								th:classappend="${message.type}">
 							</div>
-							<a th:href="@{/user/income-source/add-income-source}" class="btn btn-custom">Add <i class="fa-solid fa-plus"></i></a>
+							<a th:href="@{/user/income-source/add-income-source}" class="btn btn-custom">Add <i
+									class="fa-solid fa-plus"></i></a>
 						</div>
 					</div>
 				</div>

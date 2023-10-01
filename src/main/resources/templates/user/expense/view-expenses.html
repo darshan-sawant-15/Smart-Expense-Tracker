@@ -18,13 +18,28 @@
 								th:classappend="${message.type}">
 							</div>
 						</div>
+
+						<div class="search-engine mt-3 px-3">
+
+							<label for="search-input">Search Expenses</label>
+							<input class="form-control" type="text" id="search-input"
+								th:onkeyup="|searchExpenses(${currentPage})|" onkeypress="this.onkeyup();"
+								onkeyonchange="this.onkeyup();" onpaste="this.onkeyup();" oninput="this.onkeyup();"
+								placeholder="Search Expenses By Description">
+
+							<div class="search-result">
+
+							</div>
+
+						</div>
+
 						<form method="get" th:action="@{/user/expense/view-expenses/0}" th:if="${expenses}">
-							<div class="form-group mt-3 px-5" >
+							<div class="form-group mt-3 px-3">
 								<label for="month">Choose Month</label>
 								<select class="custom-select mr-3" name="month" id="month" required>
 									<option selected>Any</option>
 									<option th:each="my, status:${monthYearList}" th:value="${my}" th:text="${my}">
-									</option>								
+									</option>
 									<option selected hidden th:if="${month}" th:value="${month}" th:text="${month}">
 									</option>
 								</select>
@@ -38,20 +53,19 @@
 								<thead>
 									<tr>
 										<th scope="col">Sr. No.</th>
+										<th scope="col">Name</th>
 										<th scope="col">Amount</th>
 										<th scope="col">Date</th>
-										<th scope="col">Actions</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="e, status:${expenses}">
 										<th scope="row" th:text="${(currentPage*itemsPerPage)+status.count}"></th>
+										<td><a class="view-details-link" th:text="${e.description}"
+												th:href="@{'/user/expense/view-expense/'+${e.expId}+'/'+${currentPage}}"></a>
+										</td>
 										<td th:text="${currencySymbol+' '+e.amount}"></td>
 										<td th:text="${e.date}"></td>
-										<td><a class="view-details-link"
-												th:href="@{'/user/expense/view-expense/'+${e.expId}+'/'+${currentPage}}">View
-												Details</a>
-										</td>
 									</tr>
 								</tbody>
 							</table>

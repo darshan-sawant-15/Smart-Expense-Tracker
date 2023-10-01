@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,6 +49,20 @@ public class ExpenseController {
 		String currencySymbol = fullCurrency.substring(fullCurrency.indexOf('(') + 1, fullCurrency.length() - 1);
 		System.out.println("Currency Symbol: " + currencySymbol);
 		model.addAttribute("currencySymbol", currencySymbol);
+	}
+
+	@GetMapping("/search-expense/{query}/{month}")
+	public ResponseEntity<List<Expense>> searchExpense(@ModelAttribute("user") User user,
+			@PathVariable("query") String query, @PathVariable("month") String month) {
+		List<Expense> expenses;
+		System.out.println(month);
+		if (month.equals("Any")) {
+			System.out.println("Reaching");
+			expenses = expenseRepository.searchExpensesByDesc(query, user);
+		} else {
+			expenses = expenseRepository.searchExpensesByDescAndMonth(query, user, month);
+		}
+		return ResponseEntity.ok(expenses);
 	}
 
 	@GetMapping("/add-expense")

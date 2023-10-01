@@ -11,7 +11,7 @@
 		<div class="container-fluid">
 			<div class="row py-3">
 				<div class="col-md-6 offset-md-3">
-					<div class="card p-3">
+					<div class="card p-4">
 						<form th:action="@{/do-register}" method="post" th:object="${user}"
 							onsubmit="return validate()">
 							<h4 class="text-center"> Register Yourself <i class="fa-solid fa-user-plus"></i></h4>
@@ -142,7 +142,7 @@
 							<div class="form-group">
 								<label for="password">Password</label> <input type="password" class="form-control"
 									id="password" name="password" required
-									pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
+									pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*\-]).{8,}$"
 									title="Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character"
 									minlength="8" maxlength="256" placeholder="Enter A Password"
 									th:classappend="${#fields.hasErrors('password') || (errorMessage!=null && errorMessage.type=='passwordError')?'is-invalid':''}">

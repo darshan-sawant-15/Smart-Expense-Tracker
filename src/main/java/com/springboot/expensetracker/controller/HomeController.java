@@ -1,5 +1,7 @@
 package com.springboot.expensetracker.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -28,7 +30,10 @@ public class HomeController {
 
 	// for home page
 	@GetMapping("/")
-	public String home() {
+	public String home(Principal principal) {
+		if(principal!=null) {
+			return "redirect:user/dashboard";
+		}
 		return "home";
 	}
 
@@ -39,7 +44,10 @@ public class HomeController {
 
 	// for register page
 	@GetMapping("/register")
-	public String register(@ModelAttribute(value = "user") User user, Model model) {
+	public String register(@ModelAttribute(value = "user") User user, Model model, Principal principal) {
+		if(principal!=null) {
+			return "redirect:user/dashboard";
+		}
 		try {
 			System.out.println("User received in register: " + user);
 
@@ -110,7 +118,10 @@ public class HomeController {
 
 	// to load login page
 	@GetMapping("/login")
-	public String login() {
+	public String login(Principal principal) {
+		if(principal!=null) {
+			return "redirect:user/dashboard";
+		}
 		return "login";
 	}
 }

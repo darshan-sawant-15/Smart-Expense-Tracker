@@ -2,6 +2,7 @@
 
 body {
 	background-color: #bce5db !important;
+	user-select: none;
 }
 
 section {
@@ -263,4 +264,16 @@ input[readonly] {
 
 .feature:hover {
 	transform: scale(1.05);
+}
+
+/*search engine styling*/
+.search-engine{
+	position: relative;
+}
+
+.search-result{
+	position: absolute;
+	width: 100%;
+	padding-right: 30px;
+	display: none;
 }
