@@ -59,7 +59,7 @@ public class SavingsGoalController {
 			e.printStackTrace();
 			model.addAttribute("message", new Message("Something went wrong", "alert-danger"));
 		}
-		return "/user/savings-goal/set-savings-goal";
+		return "user/savings-goal/set-savings-goal";
 	}
 
 	@PostMapping("/do-set-savings-goal")
