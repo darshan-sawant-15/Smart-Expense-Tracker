@@ -112,6 +112,7 @@
 							<div class="form-group">
 								<label for="date">Date</label>
 								<input type="text" id="date" name="date" class="form-control"
+									th:max="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
 									th:classappend="${#fields.hasErrors('date') || (errorMessage!=null && errorMessage.type=='dateError')?'is-invalid':''}"
 									th:value="${expense.date}" onfocus="(this.type='date')" onblur="(this.type='text')"
 									placeholder="Enter Date (dd/mm/yyyy)" required>
