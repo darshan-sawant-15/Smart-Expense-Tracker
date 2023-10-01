@@ -39,11 +39,11 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 	public Double getTotalExpenseAmountByMonth(User u, String month);
 
 	// to get month and year for pie chart
-	@Query("select DISTINCT DATE_FORMAT(e.date, '%Y-%m') from Expense e where e.user=:u order by e.date desc")
+	@Query("select DISTINCT DATE_FORMAT(e.date, '%Y-%m') as formatted_date from Expense e where e.user=:u order by formatted_date desc")
 	public List<String> getMonthYearList(User u);
 
 	// to get year list for bar chart
-	@Query("select DISTINCT DATE_FORMAT(e.date, '%Y') from Expense e where e.user=:u order by e.date desc")
+	@Query("select DISTINCT DATE_FORMAT(e.date, '%Y') as formatted_date from Expense e where e.user=:u order by formatted_date desc")
 	public List<String> getYearList(User u);
 
 	// to group total expense amount by months in a particular year
