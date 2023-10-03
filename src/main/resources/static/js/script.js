@@ -6,7 +6,7 @@ console.log("script running");
 const toggleSideBar = () => {
 	if ($(".sidebar").is(":visible")) {
 		if ($(window).width() > 767) {
-			$(".dashboard").css("margin-left", "1%");
+			$(".dashboard").css("margin-left", "0%");
 		}
 
 		$(".sidebar").css("display", "none");
@@ -56,12 +56,12 @@ const enableEditing = (checkbox) => {
 	const nonEditableGoal = document.getElementById("non-editable-goal");
 	if (!checkbox.checked) {
 		amount.readOnly = true;
-		setBtn.disabled = true;
+		setBtn.style.display = "none";
 		editableGoal.style.display = "none";
 		nonEditableGoal.style.display = "";
 	} else {
 		amount.readOnly = false;
-		setBtn.disabled = false;
+		setBtn.style.display = "";
 		editableGoal.style.display = "";
 		nonEditableGoal.style.display = "none";
 	}

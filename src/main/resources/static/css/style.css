@@ -72,9 +72,11 @@ input[type=number]::-webkit-outer-spin-button {
 	.content {
 		margin-left: 0% !important;
 	}
-	
-	.dashboard{
-		margin-left: 0!important;
+
+	.dashboard {
+		margin-left: 0 !important;
+
+
 	}
 }
 
@@ -93,6 +95,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 .dashboard {
 	margin-left: 20%;
+
+
+	background-color: #bce5db !important;
 }
 
 .non-dashboard {
@@ -267,13 +272,18 @@ input[readonly] {
 }
 
 /*search engine styling*/
-.search-engine{
+.search-engine {
 	position: relative;
 }
 
-.search-result{
+.search-result {
 	position: absolute;
 	width: 100%;
 	padding-right: 30px;
 	display: none;
+}
+
+
+.nav-link {
+	padding-left: 10px !important;
 }

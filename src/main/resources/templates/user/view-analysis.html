@@ -94,8 +94,13 @@
 					markerSize: 0,
 					yValueFormatString: [[${currencySymbol}]] + " #,###",
 					dataPoints: [
-						/*[# th:if="${incomeByMonth}" th:each="i : ${incomeByMonth}"]*/
+						/*[# th:if="${incomeByMonth}" th:each="i, status : ${incomeByMonth}"]*/
+						/*[# th:if="${status.last}"]*/
+						{x: new Date(), y: [[${i.value}]]},
+						/*[/]*/
+						/*[# th:unless="${status.last}"]*/
 						{x: new Date([[${yearLine}]], [[${i.key}]], 0), y: [[${i.value}]]},
+						/*[/]*/
 						/*[/]*/
 
 
@@ -110,8 +115,14 @@
 					markerSize: 0,
 					yValueFormatString: [[${currencySymbol}]] + " #,###",
 					dataPoints: [
-						/*[# th:if="${expByMonthLine}" th:each="i : ${expByMonthLine}"]*/
+						/*[# th:if="${expByMonthLine}" th:each="i, status : ${expByMonthLine}"]*/
+						/*[# th:if="${status.last}"]*/
+						{x: new Date(), y: [[${i.value}]]},
+						/*[/]*/
+						/*[# th:unless="${status.last}"]*/
 						{x: new Date([[${yearLine}]], [[${i.key}]], 0), y: [[${i.value}]]},
+						/*[/]*/
+
 						/*[/]*/
 					]
 				},
@@ -159,6 +170,7 @@
 			<div class="row py-3">
 				<div class="col-md-10 offset-md-1">
 					<div class="card p-4">
+
 						<h4 class="h4 text-center">Your Expense Analysis <i
 								class="fa-solid fa-magnifying-glass-chart"></i>
 						</h4>
@@ -222,8 +234,8 @@
 										</div>
 									</form>
 								</div>
-								<div class="p-4 mx-3 mb-5 mt-3 border border-dark rounded">
-									<div id="chartContainer" style="height: 250px; width: 100%;"></div>
+								<div class="p-4 mx-2 mb-5 mt-3 border border-dark rounded">
+									<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 									<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 								</div>
 							</div>
@@ -254,8 +266,8 @@
 										</div>
 									</form>
 								</div>
-								<div class="p-4 mx-3 mt-3 mb-5 border border-dark rounded">
-									<div id="chartContainer2" style="height: 250px; width: 100%;"></div>
+								<div class="p-4 mx-2 mt-3 mb-5 border border-dark rounded">
+									<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
 								</div>
 							</div>
 
@@ -285,7 +297,8 @@
 												class="btn btn-md btn-custom">View</button>
 										</div>
 									</form>
-									<div class="expense-report p-3 border border-dark rounded" id="expense-report">
+									<div class="expense-report px-3 py-4 border border-dark rounded"
+										id="expense-report">
 										<h5 class="text-center"> Expense Report (<span th:text="${monthER}"></span>)
 										</h5>
 
@@ -351,7 +364,8 @@
 													th:text="${y}">
 												</option>
 												<option hidden selected th:value="${yearListEI[0]}"
-													th:text="${yearListEI[0]}"></option>
+													th:text="${yearListEI[0]}">
+												</option>
 												<option hidden selected th:if="${yearLine}" th:value="${yearLine}"
 													th:text="${yearLine}"></option>
 											</select>
@@ -362,8 +376,8 @@
 										</div>
 									</form>
 								</div>
-								<div class="p-4 mx-3 mt-3 mb-5 border border-dark rounded">
-									<div id="chartContainer3" style="height: 250px; width: 100%;"></div>
+								<div class="p-4 mx-2 mt-3 mb-5 border border-dark rounded">
+									<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
 								</div>
 							</div>
 
