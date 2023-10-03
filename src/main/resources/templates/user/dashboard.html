@@ -13,7 +13,7 @@
 	<section>
 		<div class="dashboard bg-white">
 			<div class="container-fluid">
-				<div class="row py-2">
+				<div class="row py-1">
 					<div class="col-md-12">
 						<div class="alert text-center" th:if="${message}" th:text="${message.content}"
 							th:classappend="${message.type}">
@@ -77,7 +77,7 @@
 						<!-- Second Row: Text Areas -->
 						<div class="row">
 							<div class="col-md-6 overall-goal">
-								<h4 class="text-center mt-2 font-weight-bold">Remember why you decided to save?
+								<h4 class="text-center mt-1 font-weight-bold">Remember why you decided to save?
 								</h4>
 								<div class="form-group px-3 mt-4 mb-4" id="non-editable-goal">
 									<div class="notes-card form-control" th:utext="${user.goals}">
@@ -88,7 +88,7 @@
 							<div class="col-md-6 current-goal">
 								<h4 class="text-center mt-2 font-weight-bold">Your current motivation to save (<span
 										th:text="${user.savingsGoal.date}"></span>)</h4>
-								<div class="form-group px-3 mt-4 mb-4" id="non-editable-goal">
+								<div class="form-group px-3 mt-4 mb-2" id="non-editable-goal">
 									<div class="notes-card form-control" th:utext="${user.savingsGoal.goal}">
 										<!-- Your content here -->
 									</div>
