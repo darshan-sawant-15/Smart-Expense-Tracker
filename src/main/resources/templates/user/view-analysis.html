@@ -169,15 +169,17 @@
 		<div class="container-fluid">
 			<div class="row py-3">
 				<div class="col-md-10 offset-md-1">
-					<div class="card p-4">
+					<div class="card px-1 py-3">
 
 						<h4 class="h4 text-center">Your Expense Analysis <i
 								class="fa-solid fa-magnifying-glass-chart"></i>
 						</h4>
+		
 						<div class="alert text-center" th:if="${message}" th:text="${message.content}"
 							th:classappend="${message.type}">
 						</div>
-						<ul class="nav nav-tabs mx-auto mt-4" id="myTab" role="tablist">
+
+						<ul class="nav nav-tabs mx-auto mt-4 px-3" id="myTab" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link" th:classappend="${tab==0?'active':''}" id="contact-tab"
 									onclick="click3()" data-toggle="tab" href="#contact" role="tab"
@@ -234,7 +236,7 @@
 										</div>
 									</form>
 								</div>
-								<div class="p-4 mx-2 mb-5 mt-3 border border-dark rounded">
+								<div class="p-4 mx-3 mb-5 mt-3 border border-dark rounded">
 									<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 									<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 								</div>
@@ -266,7 +268,7 @@
 										</div>
 									</form>
 								</div>
-								<div class="p-4 mx-2 mt-3 mb-5 border border-dark rounded">
+								<div class="p-4 mx-3 mt-3 mb-5 border border-dark rounded">
 									<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
 								</div>
 							</div>
@@ -376,7 +378,7 @@
 										</div>
 									</form>
 								</div>
-								<div class="p-4 mx-2 mt-3 mb-5 border border-dark rounded">
+								<div class="p-4 mx-3 mt-3 mb-5 border border-dark rounded">
 									<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
 								</div>
 							</div>
