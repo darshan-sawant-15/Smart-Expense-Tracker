@@ -447,6 +447,8 @@ public class UserController {
 			System.out.println(filteredMonths + "skdjsdj");
 			filteredMonths.add(0, selectedMonthER);
 
+		} else {
+			filteredMonths.add(0, DateHelper.getCurrentMonth());
 		}
 
 		System.out.println("Filtered Months after add: " + filteredMonths);
