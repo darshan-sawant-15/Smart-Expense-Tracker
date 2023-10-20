@@ -46,8 +46,8 @@ You can access the Smart Expense Tracker online by visiting the following URL: [
 
 To explore the application as a test user, you can use the following credentials:
 
-- **Username:** testuser
-- **Password:** testpassword
+- **Username:** darshan@mail.com  
+- **Password:** Darshan@123
 
 ## Technologies Used
 
