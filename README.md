@@ -1,7 +1,5 @@
 # Smart Expense Tracker
 
-**August 2023 – September 2023**
-
 Welcome to the Smart Expense Tracker, a user-friendly financial management application developed using Spring Boot, Thymeleaf, HTML, CSS, Bootstrap, JavaScript, and AJAX. This application is designed to help you manage your finances effectively. Here's an overview of the key features:
 
 ## Features
