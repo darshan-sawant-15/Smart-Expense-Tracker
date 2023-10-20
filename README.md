@@ -61,15 +61,4 @@ To explore the application as a test user, you can use the following credentials
 - MySQL
 - Spring Data JPA / Hibernate
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-We appreciate the open-source community and the creators of the technologies and libraries used in this project.
-
----
-
-This README provides an introduction to your "Smart Expense Tracker" application, instructions for getting started, and details about the technologies used. Make sure to replace `yourusername` with your actual GitHub username in the clone URL.
 
